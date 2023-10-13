@@ -6,7 +6,7 @@ public class Contact implements Comparable<Contact> {
     private String address;
     private String birthDay;
     private String notes;
-    private Eventlist events;
+    //private Eventlist events;
 
                     //Default & Set Constructors
 public Contact() {
@@ -16,7 +16,7 @@ public Contact() {
     this.address = null;
     this.birthDay = null;
     this.notes = null;
-    this.events=null;
+    //this.events=null;
 }
 public Contact(String name, String phoneNumber, String emailAddress, String address, String birthDay, String notes) {
     this.name = name;
@@ -49,9 +49,14 @@ public void setEmailAddress(String emailAddress) {
 public String getAddress() {
     return address;
 }
-public Eventlist getEvents(){
-    return events;
-}
+
+//public Eventlist getEvents(){
+ //   return events;
+//}
+//public void setEvents(Eventlist events){
+  //  this.events=events;
+//}
+
 public void setAddress(String address) {
     this.address = address;
 }
@@ -67,9 +72,7 @@ public String getNotes() {
 public void setNotes(String notes) {
     this.notes = notes;
 }
-public void setEvents(Eventlist events){
-    this.events=events;
-}
+
 //ديسبلاي فنكشن
 public void display() {
     System.out.println("Name: " + name);
