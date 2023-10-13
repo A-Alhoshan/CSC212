@@ -9,9 +9,9 @@ public class Node<T> {
         this.next=null;
     }
     public Node(Contact c){
-      this.contact = c;
+     this.contact = c;
     }
     public Node(Event e){
-        this.event=e;
+       this.event=e;
     }
 }
