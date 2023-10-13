@@ -95,7 +95,7 @@ public class LinkedList<T> {
 
 
 
-    //Unique search  نبحث بالأشياء الي ماتتكرر زي الايميل ورقم الجوال باختصار ضامنين نرجع اوبجكت واحد
+    //Unique search  نبحث بالأشياء الي ماتتكرر زي الايميل ورقم الجوال والاسم كامل باختصار ضامنين نرجع اوبجكت واحد
     //لاتنسَ هذي النوعية من السيرش بنخليها ترجع اوبجكت مب طباعة يعني لو بتستدعيها بالمين لاتنسَ تطبعها من هناك  
         public Node<Contact> searchByEmailAddress(String email){
             findFirst();
@@ -118,10 +118,21 @@ public class LinkedList<T> {
             }
             return null;
         }
+        public Node<Contact> searchByName(String name){
+            findFirst();
+            while(current!=null){
+                if(current.contact.getName().equalsIgnoreCase(name)){
+                    return current;
+                }
+                findNext();
+            }
+            return null;
+        }
+
         //not unique search الي قد يكون فيها تكرار نفس الاسم والآدريس ويوم الميلاد
         //هذي قد ترجع لك أكثر من شخص وش الحل؟ نخليهاترجع لك مصفوفةاوبجيكتات
         //الثلاث ميثودات هذولي يرجعون إما فارغة او اوبجكت او اوبجكتس لاتنسَ تتعامل مع ذا الشيء
-        public List<Contact> searchByName(String name){
+        public List<Contact> searchByFirstName(String name){
             List<Contact> foundContact_s = new ArrayList<>();
             findFirst();
             while(current!=null){
@@ -155,4 +166,23 @@ public class LinkedList<T> {
             return foundContact_s;
         }
         //delete...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
