@@ -79,11 +79,12 @@ public class Event implements Comparable<Event> {
 		that every event should have only one contact!
 		*/
 		public void display(){
-			System.out.println("Event title:"+this.title);
-			System.out.println("Contact name:"+this.contact.getName());
-			System.out.println("Event date:"+this.date);
-			System.out.println("Event Start time"+this.startTime);
-			System.out.println("Event Start time"+this.endTime);
-			System.out.println("Event location"+this.location);
+			System.out.println("Event title: "+this.title);
+			System.out.println("Contact name: "+this.contact.getName());
+			System.out.println("Event date: "+this.date);
+			System.out.println("Event Start time: "+this.startTime);
+			System.out.println("Event Start time: "+this.endTime);
+			System.out.println("Event location: "+this.location);
+			System.out.println("***************");
 		}
 	}
