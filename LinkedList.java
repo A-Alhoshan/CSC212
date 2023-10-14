@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-public class LinkedList {
+public class LinkedList<T> {
     //Atrr
     private Node<Contact> head;
     private Node<Contact> current;
@@ -51,23 +51,42 @@ public class LinkedList {
         }
         return flag;
     }
-}
+    }
+
+    public void remove() { //هذي للحذف من الدبل لينكد ليست، بنحتاجها يوم نسوي ديليت
+        if(current == head) {
+            head = head.next;
+                if(head != null)
+                    head.prev = null;
+                            }
+        else {
+            current.prev.next = current.next;
+                if(current.next != null)
+                    current.next.prev = current.prev;
+             }   
+
+        if(current.next == null)
+            current = head;
+        else
+            current = current.next;
+                        }
 
 
     public void addContact(Contact contact){
-        if(alreadyExist(contact)){
+        if(alreadyExist(contact)){ //لو كان موجود سلفًا خلاص مايحتاج تكمل
             System.out.println("Contact "+contact.getName()+" is already exist!");
         }
         else{//not exist
 
-            Node<Contact> newNode = new Node<Contact>(contact);
-            if (empty()){
-                head = newNode;
+            Node<Contact> newNode = new Node<Contact>(contact); 
+            if (empty()){ //لو كانت فاضية خله الراس والذيل 
+                head = newNode; 
+                tail = newNode;
             }       
             else{//لو كانت الليست غير فارغة والكونتاكت ليس موجود سلفًا بيدخل هنا
                     findFirst();
 
-                    while (current != null && contact.compareTo(contact) > 0){
+                    while (current != null && current.contact.compareTo(contact) < 0){
                         findNext(); //طالما الكرنت مب فاضي والكرنت ليس أدنى أبجديا كمل 
                         }//If item is A and current is B this will be negative and exit loop
                     
@@ -96,46 +115,48 @@ public class LinkedList {
 
 
     //Unique search  نبحث بالأشياء الي ماتتكرر زي الايميل ورقم الجوال والاسم كامل باختصار ضامنين نرجع اوبجكت واحد
+    //Unique search عندنا ثلاثة ايميل،رقم جوال، اسم كاملًا
     //لاتنسَ هذي النوعية من السيرش بنخليها ترجع اوبجكت مب طباعة يعني لو بتستدعيها بالمين لاتنسَ تطبعها من هناك  
-        public Node<Contact> searchByEmailAddress(String email){
+        public Contact searchByEmailAddress(String email){
             findFirst();
             while(current!=null){
                 if(current.contact.getEmailAddress().equalsIgnoreCase(email)){
-                    return current;
+                    return current.contact;
                 }
                 findNext();
             }
             return null;
-
         }
-        public Node<Contact> searchByPhoneNumber(String num){
+
+        public Contact searchByPhoneNumber(String num){
             findFirst();
             while(current!=null){
                 if(current.contact.getPhoneNumber().equals(num)){
-                    return current;
-                }
-                findNext();
-            }
-            return null;
-        }
-        public Node<Contact> searchByName(String name){
-            findFirst();
-            while(current!=null){
-                if(current.contact.getName().equalsIgnoreCase(name)){
-                    return current;
+                    return current.contact;
                 }
                 findNext();
             }
             return null;
         }
 
-        //not unique search الي قد يكون فيها تكرار نفس الاسم والآدريس ويوم الميلاد
+        public Contact searchByName(String name){
+            findFirst();
+            while(current!=null){
+                if(current.contact.getName().equalsIgnoreCase(name)){
+                    return current.contact;
+                }
+                findNext();
+            }
+            return null;
+        }
+
+        //not unique search الي قد يكون فيها تكرار نفس الاسم الاول والآدريس ويوم الميلاد
         //هذي قد ترجع لك أكثر من شخص وش الحل؟ نخليهاترجع لك مصفوفةاوبجيكتات
         //الثلاث ميثودات هذولي يرجعون إما فارغة او اوبجكت او اوبجكتس لاتنسَ تتعامل مع ذا الشيء
         public List<Contact> searchByFirstName(String name){
             List<Contact> foundContact_s = new ArrayList<>();
             findFirst();
-            while(current!=null){
+            while(current!=null){ //contains هذي من اسمها تقارن لك لو كان السترنق هذاك يحتوي السترينق هذا
                 if(current.contact.getName().toString().toLowerCase().contains(name.toLowerCase())){
                     foundContact_s.add(current.contact);
                 }
@@ -143,6 +164,7 @@ public class LinkedList {
             }
             return foundContact_s;
         }
+
         public List<Contact> searchByAddress(String address){
             List<Contact> foundContact_s = new ArrayList<>();
             findFirst();
@@ -154,6 +176,7 @@ public class LinkedList {
             }
             return foundContact_s;
         }
+
         public List<Contact> searchByBirthday(String birthday){
             List<Contact> foundContact_s = new ArrayList<>();
             findFirst();
@@ -165,11 +188,29 @@ public class LinkedList {
             }
             return foundContact_s;
         }
-        //delete...
+
+        public boolean deleteContact(Contact c){;
+        	if(empty() || c==null) {
+        		return false;
+        	}
+        	findFirst();
+        		while(current!=null) {
+        			if(current.contact.equals(c)) {
+        				remove();
+        				return true;
+        		}}
+        			return false;
+        		}
 
 
 
-
+                public void displayAll() { //testing بتفيدنا في الـ
+                    findFirst();
+                    while(current!=null) {
+                        current.contact.display();
+                        findNext();
+                    }
+                }
 
 
 
