@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
-public class LinkedList<T> {
+public class LinkedList {
     //Atrr
     private Node<Contact> head;
     private Node<Contact> current;
