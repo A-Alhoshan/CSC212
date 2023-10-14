@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalTime; //we will use this library to convert start and 
 public class Eventlist<T> { //-end times from string into localTime so we can detect colflicts
+    //Attributes
     private Node<Event> head;
     private Node<Event> current;
     private Node<Event> tail;
@@ -33,6 +34,25 @@ public class Eventlist<T> { //-end times from string into localTime so we can de
 	public void findPrevious() {
 		current = current.prev;
 }
+//احتاجها عشان احذف ايفنت 
+    public void remove() {
+        if(current == head) {
+            head = head.next;
+                if(head != null)
+                    head.prev = null;
+                            }
+        else {
+            current.prev.next = current.next;
+                if(current.next != null)
+                    current.next.prev = current.prev;
+             }   
+
+                if(current.next == null)
+                    current = head;
+                else
+                    current = current.next;
+                            }
+
 
 /*هذي الميثود سلمك الله اذا ناديتها بتمسك الفترة الزمنية الي انت دخلتها
  * ولو كانت الليست غير فارغة بتمشي على الليست واحد واحد تشيك هل فيه تعارض
@@ -61,7 +81,7 @@ public boolean isConflict(String date, String startTime, String endTime) {
 عشان لين جينا نطبعهم أبجديًا يصيرون مرتبين سلفًا والتكلفة و(ن)
 */
 public void addEvent(Event event){
-    if(!isConflict(event.getDate(),event.getstartTime(),event.getendTime())){
+    if(isConflict(event.getDate(),event.getstartTime(),event.getendTime())){
         System.out.println("You already have Event at this time!");
     }
     else{//User is Available for event
@@ -69,10 +89,11 @@ public void addEvent(Event event){
             
             if (empty()){
              head = newNode;
+             tail = newNode;
                         } 
             else{
                 findFirst();
-                while(current!=null && event.compareTo(event)>0){
+                while(current!=null && current.event.compareTo(event)<0){ //عشان نشوف من أولى ابجديا ونضيفه 
                     findNext();
                 }
                 if(current==head){
@@ -125,14 +146,25 @@ public void addEvent(Event event){
         if(empty()){
             System.out.println("You have no events scheduled");
         }
-	findFirst();
+        findFirst();
         while(current!=null){
             current.event.display();
             findNext();
         }
         }
         
+        public void deleteEvent(Contact c){ //هذي بنناديها اذا جينا نحذف كونتاكت
+            findFirst();
+            while(current!=null){
+                if(current.event.getContact().equals(c)){
+                    remove();
+                }
+                findNext();
+            }               
+            
+        }
 
 
 
 }
+
