@@ -125,6 +125,7 @@ public void addEvent(Event event){
         if(empty()){
             System.out.println("You have no events scheduled");
         }
+	findFirst();
         while(current!=null){
             current.event.display();
             findNext();
