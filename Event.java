@@ -27,7 +27,7 @@ public class Event implements Comparable<Event> {
 	        this.contact = contact;
 	    }
 	    
-	    //Setters and Getters
+	    //Setters and Getters نفس الكلام مدري وشوله سيترز بس يمكن نحتاجها بعدين فاحتياط
 	    public String getTitle() {
 	        return title;
 	    }
@@ -86,5 +86,6 @@ public class Event implements Comparable<Event> {
 			System.out.println("Event Start time: "+this.endTime);
 			System.out.println("Event location: "+this.location);
 			System.out.println("***************");
+			System.out.println("");
 		}
 	}
