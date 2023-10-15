@@ -154,36 +154,36 @@ public class LinkedList<T> {
 	// هذي قد ترجع لك أكثر من شخص وش الحل؟ نخليهاترجع لك مصفوفةاوبجيكتات
 	// الثلاث ميثودات هذولي يرجعون إما فارغة او اوبجكت او اوبجكتس لاتنسَ تتعامل مع
 	// ذا الشيء
-	public List<Contact> searchByFirstName(String name) {
-		List<Contact> foundContact_s = new ArrayList<>();
+	public LinkedList<Contact> searchByFirstName(String name) {
+		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
 		findFirst();
 		while (current != null) {
 			if (((Contact) current.data).getName().toString().toLowerCase().contains(name.toLowerCase())) {
-				foundContact_s.add(((Contact) current.data));
+				foundContact_s.addContact(((Contact) current.data));
 			}
 			findNext();
 		}
 		return foundContact_s;
 	}
 
-	public List<Contact> searchByAddress(String address) {
-		List<Contact> foundContact_s = new ArrayList<>();
+	public LinkedList<Contact> searchByAddress(String address) {
+		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
 		findFirst();
 		while (current != null) {
 			if (((Contact) current.data).getAddress().toString().toLowerCase().contains(address.toLowerCase())) {
-				foundContact_s.add(((Contact) current.data));
+				foundContact_s.addContact(((Contact) current.data));
 			}
 			findNext();
 		}
 		return foundContact_s;
 	}
 
-	public List<Contact> searchByBirthday(String birthday) {
-		List<Contact> foundContact_s = new ArrayList<>();
+	public LinkedList<Contact> searchByBirthday(String birthday) {
+		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
 		findFirst();
 		while (current != null) {
 			if (((Contact) current.data).getBirthDay().equalsIgnoreCase(birthday)) {
-				foundContact_s.add(((Contact) current.data));
+				foundContact_s.addContact(((Contact) current.data));
 			}
 			findNext();
 		}
@@ -268,24 +268,24 @@ public class LinkedList<T> {
 
 	// now with searching (we have only 2 searching criterias)(title,contact name)
 	// كلهم لازم يرجعون مصفوفة ايفنتات زي الي كتبتها باللينكد ليست حقت الاسم
-	public List<Event> searchBytitle(String title) {
-		List<Event> foundEvent_s = new ArrayList<>();
+	public LinkedList<Event> searchBytitle(String title) {
+		LinkedList<Event> foundEvent_s = new LinkedList<Event>();
 		findFirst();
 		while (current != null) {
 			if (((Event) current.data).getTitle().equalsIgnoreCase(title)) {
-				foundEvent_s.add(((Event) current.data));
+				foundEvent_s.addEvent(((Event) current.data));
 			}
 			findNext();
 		}
 		return foundEvent_s;
 	}
 
-	public List<Event> searchByContactName(String name) {
-		List<Event> foundEvent_s = new ArrayList<>();
+	public LinkedList<Event> searchByContactName(String name) {
+		LinkedList<Event> foundEvent_s = new LinkedList<Event>();
 		findFirst();
 		while (current != null) {
 			if (((Event) current.data).getContact().getName().equalsIgnoreCase(name)) {
-				foundEvent_s.add(((Event) current.data));
+				foundEvent_s.addEvent(((Event) current.data));
 			}
 			findNext();
 		}
