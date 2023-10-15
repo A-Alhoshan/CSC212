@@ -74,9 +74,9 @@ public class LinkedList<T> {
 		}
 	}
 	//هذي الميثود تستقبل كونتاكت وتتأكد لو كان موجود أو لا ثم تضيفه في المكان الصحيح بناءً على اسمه ابجديًا
-	public void addContact(Contact contact) {
+	public void addContact(Contact contact) throws IllegalArgumentException {
 		if (alreadyExist(contact)) {
-			System.out.println("Contact " + contact.getName() + " is already exist!");
+			throw new IllegalArgumentException("Contact " + contact.getName() + " is already exist!");
 		} else{// not exist
 
 			Node<T> newNode = new Node<T>((T) contact);
