@@ -77,7 +77,7 @@ public class LinkedList<T> {
 	public void addContact(Contact contact) {
 		if (alreadyExist(contact)) {
 			System.out.println("Contact " + contact.getName() + " is already exist!");
-		} else {// not exist
+		} else{// not exist
 
 			Node<T> newNode = new Node<T>((T) contact);
 			if (empty()) {
@@ -105,7 +105,6 @@ public class LinkedList<T> {
 					current.prev = newNode;
 				}
 			}
-
 		}
 	}
 	// Unique search نبحث بالأشياء الي ماتتكرر زي رقم الجوال والاسم كامل
@@ -116,10 +115,12 @@ public class LinkedList<T> {
 		findFirst();
 		while (current != null) {
 			if (((Contact) current.data).getPhoneNumber().equals(num)) {
+				System.out.println("Contact found!");
 				return ((Contact) current.data);
 			}
 			findNext();
 		}
+		System.out.println("No results for: "+num);
 		return null;
 	}
 	//هذي تستقبل اسم وتعلمك لو موجود أو لا وإذا ايه بترجعه لك ملاحظة:تراها ماتهتم كبتل او سمول
@@ -127,17 +128,22 @@ public class LinkedList<T> {
 		findFirst();
 		while (current != null) {
 			if (((Contact) current.data).getName().equalsIgnoreCase(name)) {
+				System.out.println("Contact found!");
 				return ((Contact) current.data);
 			}
 			findNext();
 		}
+		System.out.println("No results for: "+name);
 		return null;
 	}
 	// not unique search الي قد يكون فيها تكرار نفس الاسم والآدريس ويوم الميلاد والايميل
 	// هذي قد ترجع لك أكثر من شخص وش الحل؟ نخليهاترجع لك مصفوفةاوبجيكتات
 	// الاربع ميثودات هذولي يرجعون إما فارغة او اوبجكت او اوبجكتس لاتنسَ تتعامل مع
 	// ذا الشيء
-	public LinkedList<Contact> searchByFirstName(String name) {
+	public LinkedList<Contact> searchByFirstName(String name) throws IllegalArgumentException {
+		if (name == null || name.isEmpty()) {
+			throw new IllegalArgumentException("Empty field!");
+		}
 		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
 		findFirst();
 		while (current != null) {
@@ -149,7 +155,10 @@ public class LinkedList<T> {
 		return foundContact_s;
 	}
 
-	public LinkedList<Contact> searchByAddress(String address) {
+	public LinkedList<Contact> searchByAddress(String address) throws IllegalArgumentException {
+		if (address == null || address.isEmpty()) {
+			throw new IllegalArgumentException("Empty field!");
+		}
 		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
 		findFirst();
 		while (current != null) {
@@ -161,7 +170,10 @@ public class LinkedList<T> {
 		return foundContact_s;
 	}
 
-	public LinkedList<Contact> searchByBirthday(String birthday) {
+	public LinkedList<Contact> searchByBirthday(String birthday) throws IllegalArgumentException {
+		if (birthday == null || birthday.isEmpty()) {
+			throw new IllegalArgumentException("Empty field!");
+		}
 		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
 		findFirst();
 		while (current != null) {
@@ -173,7 +185,10 @@ public class LinkedList<T> {
 		return foundContact_s;
 	}	
 
-	public LinkedList<Contact> searchByEmailAddress(String email) {
+	public LinkedList<Contact> searchByEmailAddress(String email) throws IllegalArgumentException {
+		if (email == null || email.isEmpty()) {
+			throw new IllegalArgumentException("Empty field!");
+		}
 		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
 		findFirst();
 		while (current != null) {
@@ -186,8 +201,10 @@ public class LinkedList<T> {
 	}
 	//هذي الميثود تستقبل كونتاكت وتحذفه، لوتمت العملية يرجع لك صح والعكس صحيح
 	//ملاحظة: رجاءًا بالمين إذا جيت تستدعيها امسك الكونتاكت واحذف الايفنتات اول ثمن ناد هذي الميثود
-	public boolean deleteContact(Contact c) {
-		
+	public boolean deleteContact(Contact c) throws IllegalArgumentException {
+		if (c == null) {
+			throw new IllegalArgumentException("Can't delete contact.");
+		}		
 		if (empty() || c == null) {
 			return false;
 		}
@@ -195,6 +212,7 @@ public class LinkedList<T> {
 		while (current != null) {
 			if (((Contact) current.data).equals(c)) {
 				remove();
+				System.out.println("Contact and all related events deleted!");
 				return true;
 			}
 			findNext();
@@ -265,7 +283,10 @@ public class LinkedList<T> {
 
 	// now with searching (we have only 2 searching criterias)(title,contact name)
 	// كلهم لازم يرجعون مصفوفة ايفنتات زي الي كتبتها باللينكد ليست حقت الاسم
-	public LinkedList<Event> searchBytitle(String title) {
+	public LinkedList<Event> searchBytitle(String title) throws IllegalArgumentException {
+		if (title == null || title.isEmpty()) {
+			throw new IllegalArgumentException("Empty field!");
+		}		
 		LinkedList<Event> foundEvent_s = new LinkedList<Event>();
 		findFirst();
 		while (current != null) {
@@ -277,7 +298,10 @@ public class LinkedList<T> {
 		return foundEvent_s;
 	}
 	
-	public LinkedList<Event> searchByContactName(String name) {
+	public LinkedList<Event> searchByContactName(String name) throws IllegalArgumentException{
+		if (name == null || name.isEmpty()) {
+			throw new IllegalArgumentException("Empty field!");
+		}			
 		LinkedList<Event> foundEvent_s = new LinkedList<Event>();
 		findFirst();
 		while (current != null) {
@@ -301,7 +325,10 @@ public class LinkedList<T> {
 		}
 	}
 	//هذي ماتناديها إلا قبل ماتحذف كونتاكت تدخل الكونتاكت هنا وتحذف كل ايفنتاته ثمن تحذفه
-	public void deleteEvent(Contact c) {
+	public void deleteEvent(Contact c) throws IllegalArgumentException {
+		if (c == null) {
+			throw new IllegalArgumentException("");
+		}	
 		findFirst();
 		while (current != null) {
 			if (((Event) current.data).getContact().equals(c)) {
