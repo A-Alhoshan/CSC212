@@ -1,13 +1,12 @@
-import java.util.List;
 import java.util.Scanner;
 
 public class PhoneBook {
 
 	public static void main(String[] args) {
-		LinkedList CList = new LinkedList();
+		LinkedList<Contact> CList = new LinkedList<Contact>();
 		boolean main_run = true;
-		Node temp;
-		List<Contact> Ltemp;
+		Contact temp;
+		LinkedList<Contact> Ltemp;
 		Scanner input = new Scanner(System.in);
 		System.out.println("Welcome to the Linked Tree phonebook !");
 		do {
@@ -69,7 +68,7 @@ public class PhoneBook {
 						System.out.println("Contact not found!");
 					else {
 						System.out.println("Contact Found!");
-						temp.contact.display();
+						temp.display();
 					}
 
 					break;
@@ -82,7 +81,7 @@ public class PhoneBook {
 						System.out.println("Contact not found!");
 					else {
 						System.out.println("Contact Found!");
-						temp.contact.display();
+						temp.display();
 					}
 
 					break;
@@ -95,7 +94,7 @@ public class PhoneBook {
 						System.out.println("Contact not found!");
 					else {
 						System.out.println("Contact Found!");
-						temp.contact.display();
+						temp.display();
 					}
 					// Case logic here
 
@@ -105,18 +104,15 @@ public class PhoneBook {
 					String Address = input.nextLine();
 					System.out.println();
 					Ltemp = CList.searchByAddress(Address);
-					if (Ltemp.isEmpty())
+					if (Ltemp == null)
 						System.out.println("Contact not found!");
-					else if (Ltemp.size() == 1) {
+					else if (Ltemp.getLength() == 1) {
 						System.out.println("Contact Found!");
-						Ltemp.get(0).display();
+						Ltemp.displayAll();
 					} else {
 						System.out.println("Multiple contacts found!");
-						for (int i = 0; i < Ltemp.size(); i++) {
-							System.out.println(i + ": ");
-							Ltemp.get(i).display();
+						Ltemp.displayAll();
 
-						}
 					}
 
 					break;
@@ -125,19 +121,17 @@ public class PhoneBook {
 					String Bday = input.nextLine();
 					System.out.println();
 					Ltemp = CList.searchByBirthday(Bday);
-					if (Ltemp.isEmpty())
+					if (Ltemp == null)
 						System.out.println("Contact not found!");
-					else if (Ltemp.size() == 1) {
+					else if (Ltemp.getLength() == 1) {
 						System.out.println("Contact Found!");
-						Ltemp.get(0).display();
+						Ltemp.displayAll();
 					} else {
 						System.out.println("Multiple contacts found!");
-						for (int i = 0; i < Ltemp.size(); i++) {
-							System.out.println(i + ": ");
-							Ltemp.get(i).display();
+						Ltemp.displayAll();
 
-						}
 					}
+
 					break;
 				default:
 					System.out.println("Wrong input");
