@@ -65,7 +65,7 @@ public class LinkedList<T> {
 			findFirst();
 			while (current != null) {
 				if (((Contact) this.current.data).getName().equalsIgnoreCase(contact.getName())
-						|| ((Contact) this.current.data).getPhoneNumber() == contact.getPhoneNumber()) {
+						|| ((Contact) this.current.data).getPhoneNumber().equals(contact.getPhoneNumber())) {
 					flag = true;
 				}
 				findNext();
