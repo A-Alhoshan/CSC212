@@ -8,7 +8,7 @@ public class LinkedListN {
     
  // Constructor and DLL methods
  	public LinkedListN() {
- 		head = current = null;
+ 		head = current = tail = null;
  	}
 
  	public boolean empty() {
