@@ -16,15 +16,19 @@ public Contact() {
     this.notes = null;
     //this.events=null;
 }
-public Contact(String name, String phoneNumber, String emailAddress, String address, String birthDay, String notes) {
-    if(name!=null && phoneNumber!=null){
-    this.name = name;
-    this.phoneNumber = phoneNumber;
-    this.emailAddress = emailAddress;
-    this.address = address;
-    this.birthDay = birthDay;
-    this.notes = notes;}
-}
+    //We don't want name, phoneNumber to be null otherwise ok
+    public Contact(String name, String phoneNumber, String emailAddress, String address, String birthDay, String notes) throws IllegalArgumentException {
+        if (name != null && !name.isEmpty() && phoneNumber != null && !phoneNumber.isEmpty()) {
+            this.name = name;
+            this.phoneNumber = phoneNumber;
+            this.emailAddress = emailAddress;
+            this.address = address;
+            this.birthDay = birthDay;
+            this.notes = notes;
+        } else {
+            throw new IllegalArgumentException("Name and phone number cannot be null or empty.");
+        }
+    }
 
     //Setters & Getters بصراحة مدري وشوله السيت بس يمكن نحتاجها بعدين فنحطها
 public String getName() {
