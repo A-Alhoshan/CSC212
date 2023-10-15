@@ -10,7 +10,7 @@ public class LinkedList<T> {
 
 	// Constructor and DLL methods
 	public LinkedList() {
-		head = current = null;
+		head = current = tail = null;
 	}
 
 	public boolean empty() {
