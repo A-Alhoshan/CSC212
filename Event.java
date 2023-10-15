@@ -17,15 +17,20 @@ public class Event implements Comparable<Event> {
 			this.startTime=null;
 			this.endTime=null;
 	    }
-	    public Event(String title, String date,String startTime,String endTime,
-					 String location, Contact contact) {
-	        this.title = title;
-	        this.date = date;
-			this.startTime=startTime;
-			this.endTime=endTime;
-	        this.location = location;
-	        this.contact = contact;
-	    }
+		//We don't want title, date,start time, endtime, contact to be empty or null , location ok to be empty
+		public Event(String title, String date, String startTime, String endTime, String location, Contact contact) throws IllegalArgumentException {
+			if (!title.isEmpty() && !date.isEmpty() && !startTime.isEmpty() && !endTime.isEmpty() && contact != null) {
+				this.title = title;
+				this.date = date;
+				this.startTime = startTime;
+				this.endTime = endTime;
+				this.location = location;
+				this.contact = contact;
+			} else {
+				throw new IllegalArgumentException("Title, date, start time, end time, and contact cannot be null or empty.");
+			}
+		}
+		
 	    
 	    //Setters and Getters نفس الكلام مدري وشوله سيترز بس يمكن نحتاجها بعدين فاحتياط
 	    public String getTitle() {
