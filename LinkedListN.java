@@ -1,4 +1,4 @@
-//اسحب عليه
+//ااسحب على ذا الكلاس
 import java.util.ArrayList;
 import java.util.List;
 public class LinkedListN {
