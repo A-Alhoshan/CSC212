@@ -1,16 +1,14 @@
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalTime; //This library is used to prevent conflicts in user's eventlist 
 
 public class LinkedList<T> {
-	// Atrr
+	// Atrributes
 	private Node<T> head;
 	private Node<T> current;
 	private Node<T> tail;
 
 	// Constructor and DLL methods
 	public LinkedList() {
-		head = current = tail = null;
+		head = current = null;
 	}
 
 	public boolean empty() {
@@ -40,8 +38,24 @@ public class LinkedList<T> {
 	public void findPrevious() {
 		current = current.prev;
 	}
+	public void remove() { // هذي للحذف من الدبل لينكد ليست، بنحتاجها يوم نسوي ديليت
+		if (current == head) {
+			head = head.next;
+			if (head != null)
+				head.prev = null;
+		} else {
+			current.prev.next = current.next;
+			if (current.next != null)
+				current.next.prev = current.prev;
+		}
 
-	// هذي تشيك لو كان الكونتاكت موجود أو لا (ترجع خطأ لو كان مب موجود وصح لو موجود)
+		if (current.next == null)
+			current = head;
+		else
+			current = current.next;
+	}
+
+	//هذي تشيك لو كان الكونتاكت موجود أو لا (ترجع خطأ لو كان مب موجود وصح لو موجود)
 	public boolean alreadyExist(Contact contact) {
 
 		boolean flag = false;
@@ -51,7 +65,7 @@ public class LinkedList<T> {
 			findFirst();
 			while (current != null) {
 				if (((Contact) this.current.data).getName().equalsIgnoreCase(contact.getName())
-						&& ((Contact) this.current.data).getPhoneNumber() == contact.getPhoneNumber()) {
+						|| ((Contact) this.current.data).getPhoneNumber() == contact.getPhoneNumber()) {
 					flag = true;
 				}
 				findNext();
@@ -59,7 +73,7 @@ public class LinkedList<T> {
 			return flag;
 		}
 	}
-
+	//هذي الميثود تستقبل كونتاكت وتتأكد لو كان موجود أو لا ثم تضيفه في المكان الصحيح بناءً على اسمه ابجديًا
 	public void addContact(Contact contact) {
 		if (alreadyExist(contact)) {
 			System.out.println("Contact " + contact.getName() + " is already exist!");
@@ -74,7 +88,7 @@ public class LinkedList<T> {
 
 				while (current != null && ((Contact) current.data).compareTo(contact) < 0) {
 					findNext(); // طالما الكرنت مب فاضي والكرنت ليس أدنى أبجديا كمل
-				} // If item is A and current is B this will be negative and exit loop
+				}
 
 				if (current == head) {
 					newNode.next = head;
@@ -94,40 +108,10 @@ public class LinkedList<T> {
 
 		}
 	}
-
-	public void remove() { // هذي للحذف من الدبل لينكد ليست، بنحتاجها يوم نسوي ديليت
-		if (current == head) {
-			head = head.next;
-			if (head != null)
-				head.prev = null;
-		} else {
-			current.prev.next = current.next;
-			if (current.next != null)
-				current.next.prev = current.prev;
-		}
-
-		if (current.next == null)
-			current = head;
-		else
-			current = current.next;
-	}
-
-	// Unique search نبحث بالأشياء الي ماتتكرر زي الايميل ورقم الجوال والاسم كامل
+	// Unique search نبحث بالأشياء الي ماتتكرر زي رقم الجوال والاسم كامل
 	// باختصار ضامنين نرجع اوبجكت واحد
 	// لاتنسَ هذي النوعية من السيرش بنخليها ترجع اوبجكت مب طباعة يعني لو بتستدعيها
 	// بالمين لاتنسَ تطبعها من هناك
-	public Contact searchByEmailAddress(String email) {
-		findFirst();
-		while (current != null) {
-			if (((Contact) current.data).getEmailAddress().equalsIgnoreCase(email)) {
-				return ((Contact) current.data);
-			}
-			findNext();
-		}
-		return null;
-
-	}
-
 	public Contact searchByPhoneNumber(String num) {
 		findFirst();
 		while (current != null) {
@@ -138,7 +122,7 @@ public class LinkedList<T> {
 		}
 		return null;
 	}
-
+	//هذي تستقبل اسم وتعلمك لو موجود أو لا وإذا ايه بترجعه لك ملاحظة:تراها ماتهتم كبتل او سمول
 	public Contact searchByName(String name) {
 		findFirst();
 		while (current != null) {
@@ -149,10 +133,9 @@ public class LinkedList<T> {
 		}
 		return null;
 	}
-
-	// not unique search الي قد يكون فيها تكرار نفس الاسم والآدريس ويوم الميلاد
+	// not unique search الي قد يكون فيها تكرار نفس الاسم والآدريس ويوم الميلاد والايميل
 	// هذي قد ترجع لك أكثر من شخص وش الحل؟ نخليهاترجع لك مصفوفةاوبجيكتات
-	// الثلاث ميثودات هذولي يرجعون إما فارغة او اوبجكت او اوبجكتس لاتنسَ تتعامل مع
+	// الاربع ميثودات هذولي يرجعون إما فارغة او اوبجكت او اوبجكتس لاتنسَ تتعامل مع
 	// ذا الشيء
 	public LinkedList<Contact> searchByFirstName(String name) {
 		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
@@ -188,10 +171,23 @@ public class LinkedList<T> {
 			findNext();
 		}
 		return foundContact_s;
-	}
+	}	
 
+	public LinkedList<Contact> searchByEmailAddress(String email) {
+		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
+		findFirst();
+		while (current != null) {
+			if (((Contact) current.data).getEmailAddress().equalsIgnoreCase(email)) {
+				foundContact_s.addContact(((Contact) current.data));
+			}
+			findNext();
+		}
+		return foundContact_s;
+	}
+	//هذي الميثود تستقبل كونتاكت وتحذفه، لوتمت العملية يرجع لك صح والعكس صحيح
+	//ملاحظة: رجاءًا بالمين إذا جيت تستدعيها امسك الكونتاكت واحذف الايفنتات اول ثمن ناد هذي الميثود
 	public boolean deleteContact(Contact c) {
-		;
+		
 		if (empty() || c == null) {
 			return false;
 		}
@@ -201,6 +197,7 @@ public class LinkedList<T> {
 				remove();
 				return true;
 			}
+			findNext();
 		}
 		return false;
 	}
@@ -213,8 +210,8 @@ public class LinkedList<T> {
 		}
 	}
 
-	// ---------------------------------------------------------------------------
-
+	// ---------------------------------------Now with Event methods------------------------------------
+	//هذي تستقبل تاريخ ووقت بداية ووقت نهاية وإذا كانوا بنفس اليوم تعلمك لو الفترتين بينهم تعارض أو لا
 	public boolean isConflict(String date, String startTime, String endTime) {
 		if (empty()) {
 			return false;
@@ -233,7 +230,7 @@ public class LinkedList<T> {
 		}
 		return false;
 	}
-
+	//هذي الميثود تضيف لك ايفنت في المكان الصحيح بناءً على أبجدية عنوانه عشان بعدين لين جينا نطبع يصير و(ن) على طول
 	public void addEvent(Event event) {
 		if (isConflict(event.getDate(), event.getstartTime(), event.getendTime())) {
 			System.out.println("You already have Event at this time!");
@@ -245,7 +242,7 @@ public class LinkedList<T> {
 				tail = newNode;
 			} else {
 				findFirst();
-				while (current != null && event.compareTo(event) > 0) {
+				while (current != null && ((Event)current.data).compareTo(event) < 0) {
 					findNext();
 				}
 				if (current == head) {
@@ -279,7 +276,7 @@ public class LinkedList<T> {
 		}
 		return foundEvent_s;
 	}
-
+	
 	public LinkedList<Event> searchByContactName(String name) {
 		LinkedList<Event> foundEvent_s = new LinkedList<Event>();
 		findFirst();
@@ -292,8 +289,7 @@ public class LinkedList<T> {
 		return foundEvent_s;
 	}
 
-	// هذي سلمك الله بتطبع لك كل الايفنتات وبحكم اننا ضايفينهم مرتبين أصلا بتطبعهم
-	// مرتبين أبجديًا
+	// هذي بتطبع لك كل الايفنتات وبحكم اننا ضايفينهم مرتبين أصلا بتطبعهم مرتبين أبجديًا وأحلى بيق و(ن)
 	public void displayAllEvents() {
 		if (empty()) {
 			System.out.println("You have no events scheduled");
@@ -304,8 +300,8 @@ public class LinkedList<T> {
 			findNext();
 		}
 	}
-
-	public void deleteEvent(Contact c) { // هذي بنناديها اذا جينا نحذف كونتاكت
+	//هذي ماتناديها إلا قبل ماتحذف كونتاكت تدخل الكونتاكت هنا وتحذف كل ايفنتاته ثمن تحذفه
+	public void deleteEvent(Contact c) {
 		findFirst();
 		while (current != null) {
 			if (((Event) current.data).getContact().equals(c)) {
@@ -313,6 +309,5 @@ public class LinkedList<T> {
 			}
 			findNext();
 		}
-
 	}
 }
