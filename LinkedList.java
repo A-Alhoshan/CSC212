@@ -128,7 +128,6 @@ public class LinkedList<T> {
 		findFirst();
 		while (current != null) {
 			if (((Contact) current.data).getName().equalsIgnoreCase(name)) {
-				System.out.println("Contact found!");
 				return ((Contact) current.data);
 			}
 			findNext();
