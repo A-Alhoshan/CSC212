@@ -5,7 +5,8 @@ public class LinkedList<T> {
 	private Node<T> head;
 	private Node<T> current;
 	private Node<T> tail;
-
+	private int length=0; //هذا بيكون فايدته فقط عشان اذا جينا نرجع لينكد ليست في بعض السيرشز
+						//يعني مايحتاج نحطه في الديليت بنحطه فقط في الآد
 	// Constructor and DLL methods
 	public LinkedList() {
 		head = current = null;
@@ -38,6 +39,9 @@ public class LinkedList<T> {
 	public void findPrevious() {
 		current = current.prev;
 	}
+	public int getLength() {
+		return length;
+	}
 	public void remove() { // هذي للحذف من الدبل لينكد ليست، بنحتاجها يوم نسوي ديليت
 		if (current == head) {
 			head = head.next;
@@ -59,7 +63,7 @@ public class LinkedList<T> {
 	public boolean alreadyExist(Contact contact) {
 
 		boolean flag = false;
-		if (empty()) {
+		if (this.empty()) {
 			return flag;
 		} else {
 			findFirst();
@@ -76,16 +80,15 @@ public class LinkedList<T> {
 	//هذي الميثود تستقبل كونتاكت وتتأكد لو كان موجود أو لا ثم تضيفه في المكان الصحيح بناءً على اسمه ابجديًا
 	public void addContact(Contact contact) throws IllegalArgumentException {
 		if (alreadyExist(contact)) {
-			throw new IllegalArgumentException("Contact " + contact.getName() + " is already exist!");
+			throw new IllegalArgumentException("Contact " + contact.getName() + " already exists!\n");
 		} else{// not exist
-
+			length++;
 			Node<T> newNode = new Node<T>((T) contact);
-			if (empty()) {
+			if (this.empty()) {
 				head = newNode;
 				tail = newNode;
 			} else {// لو كانت الليست غير فارغة والكونتاكت ليس موجود سلفًا بيدخل هنا
 				findFirst();
-
 				while (current != null && ((Contact) current.data).compareTo(contact) < 0) {
 					findNext(); // طالما الكرنت مب فاضي والكرنت ليس أدنى أبجديا كمل
 				}
@@ -111,20 +114,20 @@ public class LinkedList<T> {
 	// باختصار ضامنين نرجع اوبجكت واحد
 	// لاتنسَ هذي النوعية من السيرش بنخليها ترجع اوبجكت مب طباعة يعني لو بتستدعيها
 	// بالمين لاتنسَ تطبعها من هناك
-	public Contact searchByPhoneNumber(String num) {
+	public Contact searchByPhoneNumber(String num) throws IllegalArgumentException {
 		findFirst();
 		while (current != null) {
 			if (((Contact) current.data).getPhoneNumber().equals(num)) {
-				System.out.println("Contact found!");
+				System.out.print("");
 				return ((Contact) current.data);
 			}
 			findNext();
 		}
-		System.out.println("No results for: "+num);
-		return null;
+	
+		throw new IllegalArgumentException("No results for: "+num+"\n");
 	}
 	//هذي تستقبل اسم وتعلمك لو موجود أو لا وإذا ايه بترجعه لك ملاحظة:تراها ماتهتم كبتل او سمول
-	public Contact searchByName(String name) {
+	public Contact searchByName(String name) throws IllegalArgumentException{
 		findFirst();
 		while (current != null) {
 			if (((Contact) current.data).getName().equalsIgnoreCase(name)) {
@@ -132,8 +135,8 @@ public class LinkedList<T> {
 			}
 			findNext();
 		}
-		System.out.println("No results for: "+name);
-		return null;
+		//System.out.println("No results for: "+name);
+		throw new IllegalArgumentException("No results for: "+name+"\n");
 	}
 	// not unique search الي قد يكون فيها تكرار نفس الاسم والآدريس ويوم الميلاد والايميل
 	// هذي قد ترجع لك أكثر من شخص وش الحل؟ نخليهاترجع لك مصفوفةاوبجيكتات
@@ -141,7 +144,7 @@ public class LinkedList<T> {
 	// ذا الشيء
 	public LinkedList<Contact> searchByFirstName(String name) throws IllegalArgumentException {
 		if (name == null || name.isEmpty()) {
-			throw new IllegalArgumentException("Empty field!");
+			throw new IllegalArgumentException("Empty field!\n");
 		}
 		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
 		findFirst();
@@ -156,7 +159,7 @@ public class LinkedList<T> {
 
 	public LinkedList<Contact> searchByAddress(String address) throws IllegalArgumentException {
 		if (address == null || address.isEmpty()) {
-			throw new IllegalArgumentException("Empty field!");
+			throw new IllegalArgumentException("Empty field!\n");
 		}
 		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
 		findFirst();
@@ -171,7 +174,7 @@ public class LinkedList<T> {
 
 	public LinkedList<Contact> searchByBirthday(String birthday) throws IllegalArgumentException {
 		if (birthday == null || birthday.isEmpty()) {
-			throw new IllegalArgumentException("Empty field!");
+			throw new IllegalArgumentException("Empty field!\n");
 		}
 		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
 		findFirst();
@@ -186,7 +189,7 @@ public class LinkedList<T> {
 
 	public LinkedList<Contact> searchByEmailAddress(String email) throws IllegalArgumentException {
 		if (email == null || email.isEmpty()) {
-			throw new IllegalArgumentException("Empty field!");
+			throw new IllegalArgumentException("Empty field!\n");
 		}
 		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
 		findFirst();
@@ -202,20 +205,22 @@ public class LinkedList<T> {
 	//ملاحظة: رجاءًا بالمين إذا جيت تستدعيها امسك الكونتاكت واحذف الايفنتات اول ثمن ناد هذي الميثود
 	public boolean deleteContact(Contact c) throws IllegalArgumentException {
 		if (c == null) {
-			throw new IllegalArgumentException("Can't delete contact.");
+			throw new IllegalArgumentException("Can't delete contact.\n");
 		}		
-		if (empty() || c == null) {
+		else if (this.empty() || c == null) {
 			return false;
 		}
+		else{
 		findFirst();
 		while (current != null) {
 			if (((Contact) current.data).equals(c)) {
 				remove();
-				System.out.println("Contact and all related events deleted!");
+				System.out.println("Contact and all related events deleted!\n");
 				return true;
 			}
 			findNext();
 		}
+	}
 		return false;
 	}
 
@@ -248,11 +253,12 @@ public class LinkedList<T> {
 		return false;
 	}
 	//هذي الميثود تضيف لك ايفنت في المكان الصحيح بناءً على أبجدية عنوانه عشان بعدين لين جينا نطبع يصير و(ن) على طول
-	public void addEvent(Event event) {
+	public void addEvent(Event event) throws IllegalArgumentException{
 		if (isConflict(event.getDate(), event.getstartTime(), event.getendTime())) {
-			System.out.println("You already have Event at this time!");
+			throw new IllegalArgumentException("You already have Event at this time!\n");
 		} else {// User is Available for event
 			Node<T> newNode = new Node<T>((T) event);
+			length++;
 
 			if (empty()) {
 				head = newNode;
@@ -284,7 +290,7 @@ public class LinkedList<T> {
 	// كلهم لازم يرجعون مصفوفة ايفنتات زي الي كتبتها باللينكد ليست حقت الاسم
 	public LinkedList<Event> searchBytitle(String title) throws IllegalArgumentException {
 		if (title == null || title.isEmpty()) {
-			throw new IllegalArgumentException("Empty field!");
+			throw new IllegalArgumentException("Empty field!\n");
 		}		
 		LinkedList<Event> foundEvent_s = new LinkedList<Event>();
 		findFirst();
@@ -299,7 +305,7 @@ public class LinkedList<T> {
 	
 	public LinkedList<Event> searchByContactName(String name) throws IllegalArgumentException{
 		if (name == null || name.isEmpty()) {
-			throw new IllegalArgumentException("Empty field!");
+			throw new IllegalArgumentException("Empty field!\n");
 		}			
 		LinkedList<Event> foundEvent_s = new LinkedList<Event>();
 		findFirst();
@@ -315,7 +321,7 @@ public class LinkedList<T> {
 	// هذي بتطبع لك كل الايفنتات وبحكم اننا ضايفينهم مرتبين أصلا بتطبعهم مرتبين أبجديًا وأحلى بيق و(ن)
 	public void displayAllEvents() {
 		if (empty()) {
-			System.out.println("You have no events scheduled");
+			System.out.println("");
 		}
 		findFirst();
 		while (current != null) {
@@ -326,14 +332,16 @@ public class LinkedList<T> {
 	//هذي ماتناديها إلا قبل ماتحذف كونتاكت تدخل الكونتاكت هنا وتحذف كل ايفنتاته ثمن تحذفه
 	public void deleteEvent(Contact c) throws IllegalArgumentException {
 		if (c == null) {
-			throw new IllegalArgumentException("");
+			throw new IllegalArgumentException("Empty field!\n");
 		}	
 		findFirst();
 		while (current != null) {
-			if (((Event) current.data).getContact().equals(c)) {
-				remove();
-			}
-			findNext();
+			if (((Event) current.data).getContact().getName().equalsIgnoreCase(c.getName())) 
+				remove();	
+			else
+				findNext();
+			
 		}
+		findFirst();
 	}
 }
