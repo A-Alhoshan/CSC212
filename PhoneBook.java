@@ -103,7 +103,7 @@ public class PhoneBook {
 							String Email = input.nextLine();
 							System.out.println();
 							cTemps = contacts.searchByEmailAddress(Email);
-							if (cTemps == null)
+							if (cTemps.empty())
 								System.out.println("Contact not found!");
 							else {
 								System.out.println("Contact/s Found!");
@@ -120,7 +120,7 @@ public class PhoneBook {
 							String Address = input.nextLine();
 							System.out.println("");
 							cTemps = contacts.searchByAddress(Address);
-							if (cTemps == null)
+							if (cTemps.empty())
 								System.out.println("Contact not found!");
 							else {
 								System.out.println("Contact/s found!");
@@ -137,7 +137,7 @@ public class PhoneBook {
 							String Bday = input.nextLine();
 							System.out.println();
 							cTemps = contacts.searchByBirthday(Bday);
-							if (cTemps == null)
+							if (cTemps.empty())
 								System.out.println("Contact not found!");
 							else {
 								System.out.println("Contact/s found!");
