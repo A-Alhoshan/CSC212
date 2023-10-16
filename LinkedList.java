@@ -244,7 +244,7 @@ public class LinkedList<T> {
 		while (current != null) {
 			LocalTime start1 = LocalTime.parse(((Event) current.data).getstartTime()); // هذولي الي موجودين فالليست
 																						// فبنرمز لهم 1
-			LocalTime end1 = LocalTime.parse(((Event) current.data).getstartTime());
+			LocalTime end1 = LocalTime.parse(((Event) current.data).getendTime());
 			if (((Event) current.data).getDate().equals(date) && !((end1.isBefore(start2) || start1.isAfter(end2)))) {
 				return true;
 			}
