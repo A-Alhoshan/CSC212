@@ -1,4 +1,4 @@
-//اسحب على ذا الكلاس
+//Ignore this class 
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalTime; //we will use this library to convert start and 
@@ -154,7 +154,8 @@ public void addEvent(Event event){
         }
         }
         
-        public void deleteEvent(Contact c){ //هذي بنناديها اذا جينا نحذف كونتاكت
+       
+	 public void deleteEvent(Contact c){ //هذي بنناديها اذا جينا نحذف كونتاكت
             findFirst();
             while(current!=null){
                 if(current.event.getContact().equals(c)){
@@ -164,7 +165,6 @@ public void addEvent(Event event){
             }               
             
         }
-
 
 
 }
