@@ -59,7 +59,7 @@ public class LinkedList<T> {
 			current = current.next;
 	}
 
-	//هذي تشيك لو كان الكونتاكت موجود أو لا (ترجع خطأ لو كان مب موجود وصح لو موجود)
+	 //هذي تشيك لو كان الكونتاكت موجود أو لا (ترجع خطأ لو كان مب موجود وصح لو موجود)
 	public boolean alreadyExist(Contact contact) {
 
 		boolean flag = false;
@@ -329,7 +329,7 @@ public class LinkedList<T> {
 			findNext();
 		}
 	}
-	//هذي ماتناديها إلا قبل ماتحذف كونتاكت تدخل الكونتاكت هنا وتحذف كل ايفنتاته ثمن تحذفه
+	 //هذي ماتناديها إلا قبل ماتحذف كونتاكت تدخل الكونتاكت هنا وتحذف كل ايفنتاته ثمن تحذفه
 	public void deleteEvent(Contact c) throws IllegalArgumentException {
 		if (c == null) {
 			throw new IllegalArgumentException("Empty field!\n");
