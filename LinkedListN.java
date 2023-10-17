@@ -1,4 +1,4 @@
-//ااسحب على ذا الكلاس
+//Ignore this class 
 import java.util.ArrayList;
 import java.util.List;
 public class LinkedListN {
@@ -116,14 +116,11 @@ public class LinkedListN {
 
                         }
                     }
-
-
-
-
-    //Unique search  نبحث بالأشياء الي ماتتكرر زي الايميل ورقم الجوال والاسم كامل باختصار ضامنين نرجع اوبجكت واحد
+ //Unique search  نبحث بالأشياء الي ماتتكرر زي الايميل ورقم الجوال والاسم كامل باختصار ضامنين نرجع اوبجكت واحد
     //Unique search عندنا ثلاثة ايميل،رقم جوال، اسم كاملًا
     //لاتنسَ هذي النوعية من السيرش بنخليها ترجع اوبجكت مب طباعة يعني لو بتستدعيها بالمين لاتنسَ تطبعها من هناك  
-        public Contact searchByEmailAddress(String email){
+
+	 public Contact searchByEmailAddress(String email){
             findFirst();
             while(current!=null){
                 if(current.contact.getEmailAddress().equalsIgnoreCase(email)){
@@ -133,6 +130,9 @@ public class LinkedListN {
             }
             return null;
         }
+
+   
+
 
         public Contact searchByPhoneNumber(String num){
             findFirst();
