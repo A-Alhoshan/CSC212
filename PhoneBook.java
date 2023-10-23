@@ -155,8 +155,8 @@ public class PhoneBook {
 					}
 					break; // exit Case 2
 
-				case "3":  // Case 3 delete contact, "nested switch"
-					System.out.println("Enter search criteria: ");
+				case "3": // Case 3 delete contact, "nested switch"
+					System.out.println("Enter search criteria: rrrr ");
 					System.out.println("1.Name ");
 					System.out.println("2.Phone Number");
 					System.out.println("");
@@ -201,7 +201,7 @@ public class PhoneBook {
 					}
 					break;// exit Case3
 
-				case "4":  // Case 4 add event
+				case "4": // Case 4 add event
 					System.out.print("Enter event title: ");
 					String EvTitle = input.nextLine();
 					System.out.print("Enter contact name: ");
@@ -276,7 +276,7 @@ public class PhoneBook {
 					}
 					break;// exit Case 6
 
-				case "6": // Case 6 search by first name "display all "contacts that have this name"
+				case "6":// Case 6 search by first name "display all "contacts that have this name"
 					System.out.print("Enter the first name: ");
 					try {
 						String Name = input.nextLine();
