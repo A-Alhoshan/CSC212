@@ -156,7 +156,7 @@ public class PhoneBook {
 					break; // exit Case 2
 
 				case "3": // Case 3 delete contact, "nested switch"
-					System.out.println("Enter search criteria: rrrr ");
+					System.out.println("Enter search criteria: ");
 					System.out.println("1.Name ");
 					System.out.println("2.Phone Number");
 					System.out.println("");
