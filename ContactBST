@@ -1,0 +1,380 @@
+
+//هذا الكلاس يمثل الداتاستركتشر تري الي بنمثلها للكونتاكتات
+import java.time.LocalTime; //This library is used to prevent conflicts in user's eventlist 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
+public class ContactBST {
+	// Atrributes
+
+	Node2 root, current;
+
+	/** Creates a new instance of BST */
+	public ContactBST() {
+		root = current = null;
+	}
+
+	public boolean empty() {
+		return root == null;
+	}
+
+	public boolean full() {
+		return false;
+	}
+
+	public Contact retrieve() {
+		return current.data;
+	}
+
+	public boolean removeKey(String k) { // Search for k
+		String k1 = k;
+		Node2 p = root;
+		Node2 q = null;
+		if (k == null || k.equalsIgnoreCase(""))
+			return false;
+		// Parent of p
+		while (p != null) {
+			if (k.compareTo(p.key) < 0) {
+				q = p;
+				p = p.left;
+			} else if (k.compareTo(p.key) > 0) {
+				q = p;
+				p = p.right;
+			} else {
+				// Found the key
+				// Check the three cases
+				if ((p.left != null) && (p.right != null)) {
+					// Case 3: two children
+					// Search for the min in the right subtree
+					Node2 min = p.right;
+					q = p;
+					while (min.left != null) {
+						q = min;
+						min = min.left;
+					}
+					p.key = min.key;
+					p.data = min.data;
+					k1 = min.key;
+					p = min;
+				}
+				// Now fall back to either case 1 or 2
+
+				// The subtree rooted at p will change here
+				if (p.left != null) { // One child
+					p = p.left;
+				} else { // One or no children
+					p = p.right;
+				}
+
+				if (q == null) { // No parent for p, root must change
+					root = p;
+				} else {
+					if (k1.compareTo(q.key) < 0) {
+						q.left = p;
+					} else {
+						q.right = p;
+					}
+				}
+				current = root;
+				return true;
+			}
+		}
+		return false; // Not found
+	}
+
+	public boolean alreadyExist(Contact tc, Node2 p) {
+		if (p == null)
+			return false;
+		if (alreadyExist(tc, p.left))
+			return true;
+		if (p.data.getName().equalsIgnoreCase(tc.getName()) || p.data.getPhoneNumber().equals(tc.getPhoneNumber()))
+			return true;
+		if (alreadyExist(tc, p.right))
+			return true;
+		return false;
+	}
+
+	// gives true if the contact tc exist in the tree, otherwise false
+	public boolean alreadyExist(Contact tc) {
+		Node2 p = root, q = root;
+		return alreadyExist(tc, p);
+	}
+
+	public boolean findkey(String tkey) {
+		Node2 p = root, q = root;
+
+		if (empty())
+			return false;
+		while (p != null) {
+			q = p;
+			if (p.key.equalsIgnoreCase(tkey)) {
+				return true;
+			} else if (tkey.compareTo(p.key) < 0)
+				p = p.left;
+			else
+				p = p.right;
+		}
+		current = q;
+		return false;
+	}
+
+	// adds contact in the tree
+	public void addContact(Contact C) throws IllegalArgumentException {
+		Node2 p, q = current;
+
+		if (alreadyExist(C)) {
+			throw new IllegalArgumentException("Contact " + C.getName() + " already exists!\n");
+		}
+
+		if (findkey(C.getName())) {
+			current = q;
+			throw new IllegalArgumentException("Contact " + C.getName() + " already exists!\n");
+		}
+
+		p = new Node2(C);
+		if (empty()) {
+			root = current = p;
+		} else {
+			// current is pointing to parent of the new key
+			if (p.key.compareTo(current.key) < 0)// current(new)<p(on it),(father)
+				current.left = p;
+			else
+				current.right = p;
+			current = p;
+		}
+	}
+
+	// searching methods <unique>
+	public Contact SearchByPhoneNumber2(String num, Node2 p) {
+		Contact temp;
+
+		if (p == null)
+			return null;
+
+		temp = SearchByPhoneNumber2(num, p.left);
+		if (temp != null)
+			return temp;
+
+		if (p.data.getPhoneNumber().equals(num))
+			return p.data;
+		temp = SearchByPhoneNumber2(num, p.right);
+		if (temp != null)
+			return temp;
+		return null;
+	}
+
+	public Contact searchByPhoneNumber(String num) throws IllegalArgumentException {
+		Node2 p = root;
+		Contact temp = SearchByPhoneNumber2(num, p);
+		if (temp != null)
+			return temp;
+		throw new IllegalArgumentException("No results for: " + num + "\n");
+	}
+
+	public Contact searchByName(String name) throws IllegalArgumentException {
+		Node2 p = root, q = root;
+
+		if (empty() || name == null || name.equalsIgnoreCase(""))
+			throw new IllegalArgumentException("No results for: " + name + "\n");
+
+		while (p != null) {
+			q = p;
+			if (p.key.equalsIgnoreCase(name)) {
+
+				return p.data;
+			} else if (name.compareTo(p.key) < 0)
+				p = p.left;
+			else
+				p = p.right;
+		}
+		if (q.key.equalsIgnoreCase(name))
+			return q.data;
+		throw new IllegalArgumentException("No results for: " + name + "\n");
+	}
+	// not unique search الي قد يكون فيها تكرار نفس الاسم والآدريس ويوم الميلاد
+	// والايميل
+	// هذي قد ترجع لك أكثر من شخص وش الحل؟ نخليهاترجع لك مصفوفةاوبجيكتات
+	// الاربع ميثودات هذولي يرجعون إما فارغة او اوبجكت او اوبجكتس لاتنسَ تتعامل مع
+	// ذا الشيء
+
+	public LinkedList<Contact> SearchByFirstName2(String name, Node2 p) {
+		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
+		LinkedList<Contact> foundContact_stemp = new LinkedList<Contact>();
+		if (p == null)
+			return null;
+
+		foundContact_stemp = SearchByFirstName2(name, p.left);
+		if (foundContact_stemp != null)
+			foundContact_s = foundContact_stemp;
+
+		if (p.data.getName().toLowerCase().contains(name.toLowerCase()))
+			foundContact_s.addContact((Contact) p.data);
+
+		foundContact_stemp = SearchByFirstName2(name, p.right);
+		if (foundContact_stemp == null || foundContact_stemp.empty()) {
+			return foundContact_s;
+		}
+		foundContact_stemp.findFirst();
+		while (!foundContact_stemp.last()) {
+			foundContact_s.addContact(foundContact_stemp.retrieve());
+			foundContact_stemp.findNext();
+
+		}
+		foundContact_s.addContact(foundContact_stemp.retrieve());
+		return foundContact_s;
+	}
+
+	public LinkedList<Contact> searchByFirstName(String name) throws IllegalArgumentException {
+		if (name == null || name.isEmpty()) {
+			throw new IllegalArgumentException("Empty field!\n");
+		}
+		Node2 p = root;
+		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
+		foundContact_s = SearchByFirstName2(name, p);
+		return foundContact_s;
+	}
+
+	public LinkedList<Contact> SearchByAddress2(String address, Node2 p) {
+		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
+		LinkedList<Contact> foundContact_stemp = new LinkedList<Contact>();
+
+		if (p == null)
+			return null;
+
+		foundContact_stemp = SearchByAddress2(address, p.left);
+		if (foundContact_stemp != null)
+			foundContact_s = foundContact_stemp;
+
+		if (p.data.getAddress().equalsIgnoreCase(address))
+			foundContact_s.addContact((Contact) p.data);
+
+		foundContact_stemp = SearchByAddress2(address, p.right);
+		if (foundContact_stemp == null || foundContact_stemp.empty()) {
+			return foundContact_s;
+		}
+		foundContact_stemp.findFirst();
+		while (!foundContact_stemp.last()) {
+			foundContact_s.addContact(foundContact_stemp.retrieve());
+			foundContact_stemp.findNext();
+
+		}
+		foundContact_s.addContact(foundContact_stemp.retrieve());
+		return foundContact_s;
+	}
+
+	public LinkedList<Contact> searchByAddress(String address) throws IllegalArgumentException {
+		if (address == null || address.isEmpty()) {
+			throw new IllegalArgumentException("Empty field!\n");
+		}
+		Node2 p = root;
+		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
+		foundContact_s = SearchByAddress2(address, p);
+		return foundContact_s;
+	}
+
+	public LinkedList<Contact> SearchByBirthday2(String birthday, Node2 p) {
+		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
+		LinkedList<Contact> foundContact_stemp = new LinkedList<Contact>();
+
+		if (p == null)
+			return null;
+
+		foundContact_stemp = SearchByBirthday2(birthday, p.left);
+		if (foundContact_stemp != null)
+			foundContact_s = foundContact_stemp;
+
+		if (p.data.getBirthDay().equalsIgnoreCase(birthday))
+			foundContact_s.addContact((Contact) p.data);
+
+		foundContact_stemp = SearchByBirthday2(birthday, p.right);
+		if (foundContact_stemp == null || foundContact_stemp.empty()) {
+			return foundContact_s;
+		}
+		foundContact_stemp.findFirst();
+		while (!foundContact_stemp.last()) {
+			foundContact_s.addContact(foundContact_stemp.retrieve());
+			foundContact_stemp.findNext();
+
+		}
+		foundContact_s.addContact(foundContact_stemp.retrieve());
+		return foundContact_s;
+	}
+
+	public LinkedList<Contact> searchByBirthday(String birthday) throws IllegalArgumentException {
+		if (birthday == null || birthday.isEmpty()) {
+			throw new IllegalArgumentException("Empty field!\n");
+		}
+		Node2 p = root;
+		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
+		foundContact_s = SearchByBirthday2(birthday, p);
+		return foundContact_s;
+	}
+
+	public LinkedList<Contact> SearchByEmailAddress2(String email, Node2 p) {
+		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
+		LinkedList<Contact> foundContact_stemp = new LinkedList<Contact>();
+
+		if (p == null)
+			return null;
+
+		foundContact_stemp = SearchByEmailAddress2(email, p.left);
+		if (foundContact_stemp != null)
+			foundContact_s = foundContact_stemp;
+
+		if (p.data.getEmailAddress().equalsIgnoreCase(email))
+			foundContact_s.addContact((Contact) p.data);
+
+		foundContact_stemp = SearchByEmailAddress2(email, p.right);
+		if (foundContact_stemp == null || foundContact_stemp.empty()) {
+			return foundContact_s;
+		}
+		foundContact_stemp.findFirst();
+		while (!foundContact_stemp.last()) {
+			foundContact_s.addContact(foundContact_stemp.retrieve());
+			foundContact_stemp.findNext();
+
+		}
+		foundContact_s.addContact(foundContact_stemp.retrieve());
+		return foundContact_s;
+	}
+
+	public LinkedList<Contact> searchByEmailAddress(String email) throws IllegalArgumentException {
+		if (email == null || email.isEmpty()) {
+			throw new IllegalArgumentException("Empty field!\n");
+		}
+		Node2 p = root;
+		LinkedList<Contact> foundContact_s = new LinkedList<Contact>();
+		foundContact_s = SearchByEmailAddress2(email, p);
+		return foundContact_s;
+	}
+
+	// deleting a contact from the tree
+	public boolean deleteContact(Contact c) throws IllegalArgumentException {
+		if (c == null || c.getName() == null) {
+			throw new IllegalArgumentException("Can't delete contact.\n");
+		} else if (this.empty() || c == null) {
+			return false;
+		} else {
+			if (removeKey(c.getName())) {
+				Icon icon = new ImageIcon("C:\\Users\\zyad9\\Desktop\\Logo3.png");
+				JOptionPane.showMessageDialog(null, "Contact and all related events deleted!\n", "result", 0, icon);
+				return true;
+			}
+		}
+		throw new IllegalArgumentException("Can't delete contact.\n");
+	}
+
+	public void displayAll2(Node2 p) { // testing بتفيدنا في الـ
+		if (p == null)
+			return;
+		displayAll2(p.left);
+		p.data.display();
+		displayAll2(p.right);
+	}
+
+	public void displayAll() { // testing بتفيدنا في الـ
+		Node2 p = root;
+		displayAll2(p);
+	}
+}
