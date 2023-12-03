@@ -1,96 +1,130 @@
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 public class Event implements Comparable<Event> {
-    		
-		//Attributes
-	    private String title;
-	    private String date; //(MM/DD/YYYY) AS Mentioned in requirement
-		private String startTime;//HH:mm 
-		private String endTime; //HH:mm هذولي الثنين قسمناهم عشان نعرف اذا فيه تعارض بين ايفنتين ولالا
-	    private String location;
-	    private Contact contact; //هنا حطينا متغير كونتاكت من نوع كونتاكت عشان بنضيف الفعاليات للكونتاكت نفسه فبنحتاجه في هذا الكلاس
-	    						 //We will assume that an event have only one contact
-	    //Default and Set Constructors 
-	    public Event() {
-	    	this.title = null;
-	    	this.date=null;
-	    	this.location=null;
-	    	this.contact=null;
-			this.startTime=null;
-			this.endTime=null;
-	    }
-		//We don't want title, date,start time, endtime, contact to be empty or null , location ok to be empty
-		public Event(String title, String date, String startTime, String endTime, String location, Contact contact) throws IllegalArgumentException {
-			if (!title.isEmpty() && !date.isEmpty() && !startTime.isEmpty() && !endTime.isEmpty() && contact != null) {
-				this.title = title;
-				this.date = date;
-				this.startTime = startTime;
-				this.endTime = endTime;
-				this.location = location;
-				this.contact = contact;
-			} else {
-				throw new IllegalArgumentException("Title, date, start time, end time, and contact cannot be null or empty.");
-			}
-		}
-		
-	    
-	    //Setters and Getters نفس الكلام مدري وشوله سيترز بس يمكن نحتاجها بعدين فاحتياط
-	    public String getTitle() {
-	        return title;
-	    }
 
-	    public void setTitle(String title) {
-	        this.title = title;
-	    }
+	// Attributes
+	private String title;
+	private String date;// (MM/DD/YYYY) AS Mentioned in requirement
+	private String startTime;// HH:mm
+	private String endTime;// HH:mm هذولي الثنين قسمناهم عشان نعرف اذا فيه تعارض بين ايفنتين ولالا
+	private String location;
+	private Contact contact;// هنا حطينا متغير كونتاكت من نوع كونتاكت عشان بنضيف الفعاليات للكونتاكت نفسه
+							// فبنحتاجه في هذا الكلاس
+	private LinkedList<Contact> contacts; // لينكد ليست من نوع كونتاكتس، ياعيال لحد يحذف الميثودات حقت فيز 1 بستفيد منها
+											// هنا
+	// Default and Set Constructors
 
-	    public String getDate() {
-	        return date;
-	    }
-		public void setDate(String date) {
-	        this.date = date;
-	    }
-		public String getstartTime(){
-			return startTime;
-		}
-		public void setstartTime(String startTime){
-			this.startTime=startTime;
-		}
-		public String getendTime(){
-			return endTime;
-		}
-		public void setendTime(String endTime){
-			this.endTime=endTime;
-		}
-	    public String getLocation() {
-	        return location;
-	    }
+	public Event() {
+		this.title = null;
+		this.date = null;
+		this.location = null;
+		this.contact = null;
+		this.startTime = null;
+		this.endTime = null;
+		this.contacts = null;
+	}
 
-	    public void setLocation(String location) {
-	        this.location = location;
-	    }
-
-	    public Contact getContact() {
-	        return contact;
-	    }
-
-	    public void setContact(Contact contact) {
-	        this.contact = contact;
-	    }
-	    @Override
-	    public int compareTo(Event e) {
-	        return this.title.compareTo(e.title);
-	    }
-		//Compare للمقارنة بين اسماء الأحداث بناءً على الأبجدية عشان بعدين بنحتاج نطبعهم بالترتيب
-
-		/*remember, we will stick with requirement and we assume
-		that every event should have only one contact!
-		*/
-		public void display(){
-			System.out.println("Event title: "+this.title);
-			System.out.println("Contact name: "+this.contact.getName());
-			System.out.println("Event date: "+this.date);
-			System.out.println("Event start time: "+this.startTime);
-			System.out.println("Event end time: "+this.endTime);
-			System.out.println("Event location: "+this.location);
-			System.out.println("***************");
-			System.out.println("");
+	// constructor for appointment
+	public Event(String title, String date, String startTime, String endTime, String location, Contact contact)
+			throws IllegalArgumentException {
+		if (!title.isEmpty() && !date.isEmpty() && !startTime.isEmpty() && !endTime.isEmpty() && contact != null) {
+			this.title = title;
+			this.date = date;
+			this.startTime = startTime;
+			this.endTime = endTime;
+			this.location = location;
+			this.contact = contact;
+			this.contacts = null;
+		} else {
+			throw new IllegalArgumentException(
+					"Title, date, start time, end time, and contact cannot be null or empty.");
 		}
 	}
+
+	public boolean isAppointment() {
+		return this.contacts == null; // لو كان ابوينتمينت ذي الليست بتصير فاضية وبيرجع لك ترو
+	}
+
+	// constructor for event
+	public Event(String title, String date, String startTime, String endTime, String location,
+			LinkedList<Contact> contacts) throws IllegalArgumentException {
+		if (!title.isEmpty() && !date.isEmpty() && !startTime.isEmpty() && !endTime.isEmpty() && contacts != null) {
+			this.title = title;
+			this.date = date;
+			this.startTime = startTime;
+			this.endTime = endTime;
+			this.location = location;
+			this.contact = null;
+			this.contacts = contacts;
+		} else {
+			throw new IllegalArgumentException(
+					"Title, date, start time, end time, and contacts cannot be null or empty.");
+		}
+	}
+
+	// Getters
+	public String getTitle() {
+		return title;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public String getstartTime() {
+		return startTime;
+	}
+
+	public String getendTime() {
+		return endTime;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public Contact getContact() {
+		return contact;
+	}
+
+	public LinkedList<Contact> getContacts() {
+		return contacts;
+	}
+
+	@Override
+	public int compareTo(Event e) {
+		return this.title.compareTo(e.title);
+	}
+
+	// Compare للمقارنة بين اسماء الأحداث بناءً على الأبجدية عشان بعدين بنحتاج
+	// نطبعهم بالترتيب
+	// editied
+	public void display() {
+		Icon icon = new ImageIcon("C:\\Users\\zyad9\\Desktop\\Logo3.png");
+		if (this.isAppointment()) {
+			String s = "Appointment title: " + this.title + "\n" + "Contact name: " + this.contact.getName() + "\n"
+					+ "Appointment date: " + this.date + "\n" + "Appointment start time: " + this.startTime + "\n"
+					+ "Appointment end time: " + this.endTime + "\n" + "Appointment location: " + this.location + "\n";
+			JOptionPane.showMessageDialog(null, s, "result", 0, icon);
+		} else { // لو كان ايفنت
+			String c = "Event title: " + this.title + "\n" + "Contact names: " + this.displayingNames() + "\n"
+					+ "Event date: " + this.date + "\n" + "Event start time: " + this.startTime + "\n"
+					+ "Event end time: " + this.endTime + "\n" + "Event location: " + this.location + "\n";
+			JOptionPane.showMessageDialog(null, c, "result", 0, icon);
+		}
+	}
+
+	// هذي بس عشان الميثود الي فوقها بس!
+	public String displayingNames() {
+		String names = "";
+		this.contacts.findFirst();
+		while (!(this.contacts.last())) {
+			names = names + this.contacts.getCurrent().data.getName() + ",";
+			this.contacts.findNext();
+		}
+		names = names + this.contacts.getCurrent().data.getName();
+		return names;
+	}
+}
