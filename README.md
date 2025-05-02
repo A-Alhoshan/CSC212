@@ -70,5 +70,5 @@ Run the application:
 java PhoneBook
 ```
 ---
-Thank you for checking out my PhoneBook Application! 🌟
+Thank you for checking out our PhoneBook Application! 🌟
 If you find this project helpful, feel free to star the repository and share your feedback! 🙌
